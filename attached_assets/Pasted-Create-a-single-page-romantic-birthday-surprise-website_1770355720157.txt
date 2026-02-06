@@ -1,0 +1,126 @@
+Create a single-page romantic birthday surprise website for my girlfriend. The website must look premium, emotional, and fully decorated with birthday + love theme. It must be mobile responsive.
+
+Theme & Design
+
+Colors: soft pink, red, white, gold accents
+
+Background: animated gradient + floating hearts + balloons + sparkles + confetti
+
+Smooth scroll animations
+
+Cute and romantic vibe
+
+One page only
+
+Sections (One Page)
+1) Hero Section (Top)
+
+Big title: “Happy Birthday My Love ❤️”
+
+Subtitle: “You are the most special person in my life”
+
+A cute animated heart + balloons
+
+A big button: “Play Our Song 🎶”
+
+When the button is clicked, smoothly scroll to the music section
+
+2) Music Section (IMPORTANT)
+
+Add “Main Tera – Arijit Singh” as the song using a YouTube embedded player (because browsers block autoplay and copyrighted MP3 files should not be hosted).
+
+Title: “🎶 Our Song: Main Tera”
+
+Short text: “Play this song and read the letter 💖”
+
+Add a responsive YouTube iframe embed
+
+Make it look like a beautiful music card with rounded corners and soft shadow
+
+Use this embed format (use any working YouTube video of the song):
+
+https://www.youtube.com/embed/VIDEO_ID
+
+Make sure the iframe is 100% width on mobile.
+
+3) Photo Gallery Section
+
+Beautiful photo grid (3–12 images)
+
+Rounded corners + shadow + hover zoom
+
+Use placeholder image paths so I can replace later:
+
+/images/pic1.jpg
+
+/images/pic2.jpg
+
+/images/pic3.jpg
+
+etc.
+
+4) Love Letter Section
+
+A fancy card with a romantic handwritten-style font
+
+Title: “A Letter For You 💌”
+
+Write a long emotional birthday love letter
+
+Include sweet lines, gratitude, and romantic promises
+
+Add typing animation OR fade-in line by line
+
+5) Birthday Countdown + Surprise
+
+Add a countdown timer (editable date in script.js)
+
+When countdown ends:
+
+Show: “🎉 SURPRISE! I LOVE YOU FOREVER ❤️”
+
+Trigger a confetti burst animation
+
+6) Final Romantic Ending
+
+Big text: “You are my favorite person forever 💖”
+
+Glowing heart animation
+
+Button: “Click for a Final Kiss 😘”
+
+On click show popup: “Mwahhh 😘 Happy Birthday, my love!”
+
+Technical Requirements (Very Important)
+
+Use only HTML + CSS + JavaScript (no backend)
+
+Make it one page only
+
+File structure must be:
+
+index.html
+
+style.css
+
+script.js
+
+images/
+
+Add clear comments in code where I can change:
+
+girlfriend name
+
+birthday date
+
+photos
+
+YouTube video link
+
+Must run perfectly on Replit instantly
+
+Add smooth animations, soft shadows, modern UI
+
+Use only free fonts from Google Fonts
+
+Make the final website extremely beautiful, romantic, and birthday-surprise themed.
