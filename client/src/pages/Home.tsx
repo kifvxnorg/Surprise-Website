@@ -25,7 +25,7 @@ import {
 // === CONFIGURATION ===
 const CONFIG = {
   name: "My Love",
-  songId: "yJg-Y5byMMw", // Main Tera Boyfriend or similar
+  songId: "MBePwJgQpXk", // Updated song ID
   birthdayDate: "2024-12-25T00:00:00", // Change this to the actual date
 };
 
@@ -37,10 +37,10 @@ export default function Home() {
   
   const scrollToMusic = () => {
     musicSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-    // Note: We can't auto-play youtube due to browser policies without user interaction on the frame itself usually
+    setIsPlaying(true);
     toast({
-      title: "Scroll down! 👇",
-      description: "Let's play our song first.",
+      title: "Music started! 🎶",
+      description: "Enjoy the song while you read the letter.",
       duration: 3000,
     });
   };
@@ -120,34 +120,19 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. Music Section */}
-      <Section id="music" className="bg-white/50 backdrop-blur-sm">
-        <div ref={musicSectionRef} className="max-w-4xl mx-auto text-center">
-          <div className="mb-8">
-            <h2 className="text-3xl md:text-5xl font-hand font-bold text-primary mb-4">
-              🎶 Our Song
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Play this while you scroll through the rest... 💖
-            </p>
-          </div>
-          
-          <Card className="overflow-hidden shadow-xl border-primary/10 bg-white/80">
-            <CardContent className="p-0 aspect-video relative">
-              <iframe 
-                width="100%" 
-                height="100%" 
-                src={`https://www.youtube.com/embed/${CONFIG.songId}?controls=1`} 
-                title="Our Song" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-                className="absolute inset-0 w-full h-full"
-              ></iframe>
-            </CardContent>
-          </Card>
-        </div>
-      </Section>
+      {/* 2. Music Section (Hidden Player) */}
+      <div ref={musicSectionRef} className="sr-only pointer-events-none">
+        {isPlaying && (
+          <iframe 
+            width="1" 
+            height="1" 
+            src={`https://www.youtube.com/embed/${CONFIG.songId}?autoplay=1&controls=0`} 
+            title="Our Song" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          ></iframe>
+        )}
+      </div>
 
       {/* 3. Gallery Section */}
       <Section className="bg-gradient-to-b from-transparent to-white/40">
