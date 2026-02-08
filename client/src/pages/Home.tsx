@@ -29,6 +29,141 @@ const CONFIG = {
   birthdayDate: "2024-12-25T00:00:00", // Change this to the actual date
 };
 
+function VirtualCake({ name }: { name: string }) {
+  const [isCut, setIsCut] = useState(false);
+  const [knifePos, setKnifePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setKnifePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const handleCut = () => {
+    if (!isCut) {
+      setIsCut(true);
+      const end = Date.now() + 2 * 1000;
+      const colors = ["#FFD700", "#FFC0CB", "#FF0000"];
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors,
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors,
+        });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+  };
+
+  return (
+    <div 
+      className="relative w-full max-w-md mx-auto h-[400px] flex items-center justify-center cursor-none group"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onClick={handleCut}
+    >
+      {/* Cake Base */}
+      <div className="relative w-64 h-64">
+        {/* Shadow */}
+        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-48 h-8 bg-black/10 rounded-[100%] blur-xl" />
+        
+        {/* Cake Body */}
+        <motion.div 
+          animate={isCut ? { x: -10 } : {}}
+          className="absolute inset-0 bg-pink-200 rounded-lg shadow-lg border-b-8 border-pink-300"
+        >
+          {/* Frosting drips */}
+          <div className="absolute top-0 left-0 w-full h-8 flex justify-around">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="w-8 h-12 bg-pink-100 rounded-full -mt-4" />
+            ))}
+          </div>
+
+          {/* Name on Cake */}
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <span className="font-hand text-3xl text-pink-500 font-bold text-center drop-shadow-sm rotate-[-2deg]">
+              {name}
+            </span>
+          </div>
+
+          {/* Knife Cut Mark */}
+          {isCut && (
+            <motion.div 
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: 1 }}
+              className="absolute left-1/2 top-0 w-2 h-full bg-pink-300/50 -translate-x-1/2 origin-top"
+            />
+          )}
+        </motion.div>
+
+        {/* Cake Body Right Half (if cut) */}
+        {isCut && (
+          <motion.div 
+            initial={{ x: 0 }}
+            animate={{ x: 10 }}
+            className="absolute inset-0 bg-pink-200 rounded-lg shadow-lg border-b-8 border-pink-300 clip-path-right"
+            style={{ clipPath: 'inset(0 0 0 50%)' }}
+          >
+            {/* Name Mirror */}
+            <div className="absolute inset-0 flex items-center justify-center p-4">
+              <span className="font-hand text-3xl text-pink-500 font-bold text-center drop-shadow-sm rotate-[-2deg]">
+                {name}
+              </span>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Candles */}
+        <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex gap-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="w-2 h-12 bg-yellow-200 rounded-full relative">
+              <motion.div 
+                animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.2 }}
+                className="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-6 bg-orange-500 rounded-full blur-[2px]"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Virtual Knife Cursor */}
+      {isHovering && (
+        <motion.div 
+          className="pointer-events-none absolute z-50 text-4xl"
+          animate={{ 
+            x: knifePos.x - 20, 
+            y: knifePos.y - 20,
+            rotate: isCut ? 45 : -15 
+          }}
+          transition={{ type: "spring", damping: 20, stiffness: 300, mass: 0.5 }}
+        >
+          🔪
+        </motion.div>
+      )}
+
+      <div className="absolute bottom-4 left-0 w-full text-center">
+        <p className="font-hand text-xl text-primary animate-bounce">
+          {isCut ? "Yummy! 🍰" : "Click to cut the cake! 🔪"}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const { toast } = useToast();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -259,6 +394,11 @@ export default function Home() {
           
           <Countdown targetDate={CONFIG.birthdayDate} onComplete={triggerConfetti} />
           
+          <div className="mt-20">
+            <h3 className="text-2xl font-bold mb-6 text-foreground">A Special Cake for You 🎂</h3>
+            <VirtualCake name={CONFIG.name} />
+          </div>
+
           <div className="mt-20">
             <h3 className="text-2xl font-bold mb-6 text-foreground">Leave a Wish 💭</h3>
             <MessageBoard />
