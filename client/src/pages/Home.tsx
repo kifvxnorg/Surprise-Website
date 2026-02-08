@@ -33,16 +33,21 @@ export default function Home() {
   const { toast } = useToast();
   const [isPlaying, setIsPlaying] = useState(false);
   const [showKiss, setShowKiss] = useState(false);
+  const [lightsOn, setLightsOn] = useState(false);
   const musicSectionRef = useRef<HTMLDivElement>(null);
   
-  const scrollToMusic = () => {
-    musicSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  const turnOnLights = () => {
+    setLightsOn(true);
     setIsPlaying(true);
     toast({
-      title: "Music started! 🎶",
-      description: "Enjoy the song while you read the letter.",
+      title: "Welcome! ❤️",
+      description: "The lights are on and the music is playing.",
       duration: 3000,
     });
+  };
+
+  const scrollToMusic = () => {
+    musicSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const triggerConfetti = () => {
@@ -73,6 +78,35 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden relative font-sans text-foreground">
+      <AnimatePresence>
+        {!lightsOn && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center p-4 text-center"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Button
+                onClick={turnOnLights}
+                size="lg"
+                className="rounded-full px-12 py-8 text-2xl bg-white text-black hover:bg-white/90 shadow-[0_0_30px_rgba(255,255,255,0.3)] group"
+              >
+                <Sparkles className="w-8 h-8 mr-3 text-yellow-500 group-hover:animate-pulse" />
+                Turn On The Lights ✨
+              </Button>
+              <p className="mt-6 text-white/40 font-hand text-xl italic">
+                A special surprise is waiting for you...
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <FloatingHearts />
       
       {/* 1. Hero Section */}
