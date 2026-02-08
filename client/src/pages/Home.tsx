@@ -134,15 +134,6 @@ export default function Home() {
             You are the most special person in my life. Today is all about you.
             Get ready for a little surprise! ✨
           </p>
-
-          <Button 
-            size="lg" 
-            onClick={scrollToMusic}
-            className="rounded-full px-8 py-6 text-xl bg-primary hover:bg-primary/90 shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-1 group"
-          >
-            <Music className="w-6 h-6 mr-2 group-hover:animate-spin" />
-            Play Our Song 🎶
-          </Button>
         </motion.div>
 
         {/* Decorative background elements */}
