@@ -169,11 +169,13 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showKiss, setShowKiss] = useState(false);
   const [lightsOn, setLightsOn] = useState(false);
+  const [step, setStep] = useState(0);
   const musicSectionRef = useRef<HTMLDivElement>(null);
   
   const turnOnLights = () => {
     setLightsOn(true);
     setIsPlaying(true);
+    setStep(1); // Move to first surprise step
     toast({
       title: "Welcome! ❤️",
       description: "The lights are on and the music is playing.",
@@ -181,8 +183,9 @@ export default function Home() {
     });
   };
 
-  const scrollToMusic = () => {
-    musicSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  const nextStep = () => {
+    setStep(prev => prev + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const triggerConfetti = () => {
@@ -244,44 +247,147 @@ export default function Home() {
 
       <FloatingHearts />
       
-      {/* 1. Hero Section */}
-      <div className="min-h-screen flex flex-col items-center justify-center relative p-4 text-center">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="relative z-10"
-        >
-          <motion.div 
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="text-6xl md:text-8xl mb-6 inline-block"
+      {/* Surprise Content */}
+      <AnimatePresence mode="wait">
+        {step === 1 && (
+          <motion.div
+            key="step1"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            className="min-h-screen flex flex-col items-center justify-center p-4 text-center"
           >
-            ❤️
+            <motion.div 
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="text-6xl md:text-8xl mb-6 inline-block"
+            >
+              ❤️
+            </motion.div>
+            <h1 className="text-5xl md:text-7xl font-bold font-hand text-primary mb-6 tracking-tight drop-shadow-sm">
+              Happy Birthday <br/> 
+              <span className="text-foreground">{CONFIG.name}</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+              You are the most special person in my life. Today is all about you.
+            </p>
+            <Button size="lg" onClick={nextStep} className="rounded-full px-8 py-6 text-xl">
+              See Your Memories ✨
+            </Button>
           </motion.div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold font-hand text-primary mb-6 tracking-tight drop-shadow-sm">
-            Happy Birthday <br/> 
-            <span className="text-foreground">{CONFIG.name}</span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-            You are the most special person in my life. Today is all about you.
-            Get ready for a little surprise! ✨
-          </p>
-        </motion.div>
+        )}
 
-        {/* Decorative background elements */}
-        <div className="absolute top-1/4 left-10 animate-float opacity-50 hidden md:block">
-          <span className="text-6xl">🎈</span>
-        </div>
-        <div className="absolute top-1/3 right-10 animate-float-delayed opacity-50 hidden md:block">
-          <span className="text-6xl">🎁</span>
-        </div>
-      </div>
+        {step === 2 && (
+          <motion.div
+            key="step2"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            className="min-h-screen p-4 flex flex-col items-center justify-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-hand font-bold text-primary mb-12 text-center">
+              Our Memories 📸
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+              <PhotoCard src="/images/pic1.jpg" caption="Your beautiful smile ✨" delay={0} />
+              <PhotoCard src="/images/pic4.jpg" caption="Adventures together 🌍" delay={0.2} />
+              <PhotoCard src="/images/pic2.jpg" caption="Silly moments 🤪" delay={0.4} />
+              <PhotoCard src="/images/pic3.jpg" caption="Looking gorgeous as always 💃" delay={0.6} />
+              <PhotoCard src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&h=800&fit=crop" caption="My favorite view 👀" delay={0.8} />
+              <PhotoCard src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&h=800&fit=crop" caption="Forever & Always ❤️" delay={1.0} />
+            </div>
+            <Button size="lg" onClick={nextStep} className="rounded-full px-8 py-6 text-xl">
+              Read My Message 💌
+            </Button>
+          </motion.div>
+        )}
 
-      {/* 2. Music Section (Hidden Player) */}
-      <div ref={musicSectionRef} className="sr-only pointer-events-none">
+        {step === 3 && (
+          <motion.div
+            key="step3"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            className="min-h-screen flex items-center justify-center p-4"
+          >
+            <div className="max-w-3xl w-full">
+              <div className="bg-[#fffdf7] p-8 md:p-12 rounded-lg shadow-2xl border border-primary/10 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-400 via-pink-500 to-red-400 opacity-50" />
+                <h2 className="text-4xl font-hand font-bold text-center text-primary mb-8">A Letter For You 💌</h2>
+                <div className="font-hand text-xl md:text-2xl leading-loose text-gray-700 space-y-6">
+                  <p>My Dearest {CONFIG.name},</p>
+                  <p>As I sit down to write this, I realize that words aren't enough to express how much you mean to me...</p>
+                  <p>On your special day, I just want you to know that you are loved beyond measure.</p>
+                  <p className="text-right mt-8 font-bold">Forever Yours,<br/>Me ❤️</p>
+                </div>
+              </div>
+              <div className="text-center mt-12">
+                <Button size="lg" onClick={nextStep} className="rounded-full px-8 py-6 text-xl">
+                  Ready for the Cake? 🎂
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {step === 4 && (
+          <motion.div
+            key="step4"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            className="min-h-screen flex flex-col items-center justify-center p-4 text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-hand font-bold text-primary mb-12">The Big Moment 🎉</h2>
+            <Countdown targetDate={CONFIG.birthdayDate} onComplete={triggerConfetti} />
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold mb-6 text-foreground">A Special Cake for You 🎂</h3>
+              <VirtualCake name={CONFIG.name} />
+            </div>
+            <div className="mt-12">
+              <Button size="lg" onClick={nextStep} className="rounded-full px-8 py-6 text-xl">
+                One Last Surprise ✨
+              </Button>
+            </div>
+          </motion.div>
+        )}
+
+        {step === 5 && (
+          <motion.div
+            key="step5"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="min-h-screen flex flex-col items-center justify-center p-4 text-center"
+          >
+            <h2 className="text-4xl md:text-6xl font-hand font-bold text-primary mb-12 leading-tight">
+              You are my favorite person forever 💖
+            </h2>
+            <div className="grid gap-12 max-w-2xl w-full mx-auto">
+              <div className="relative inline-block group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-pink-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    setShowKiss(true);
+                    triggerConfetti();
+                  }}
+                  className="relative px-12 py-8 text-2xl rounded-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 shadow-xl text-white border-none transform transition-all hover:scale-105 active:scale-95 w-full"
+                >
+                  <Sparkles className="w-6 h-6 mr-3 animate-pulse" />
+                  Click for a Final Kiss 😘
+                </Button>
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold mb-6 text-foreground">Leave a Wish 💭</h3>
+                <MessageBoard />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Hidden Music Player */}
+      <div className="sr-only pointer-events-none">
         {isPlaying && (
           <iframe 
             width="1" 
@@ -294,152 +400,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* 3. Gallery Section */}
-      <Section className="bg-gradient-to-b from-transparent to-white/40">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-hand font-bold text-primary mb-4">
-              Our Memories 📸
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Just a few of the million reasons I love you.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <PhotoCard 
-              src="/images/pic1.jpg" 
-              caption="Your beautiful smile ✨"
-              delay={0}
-            />
-            <PhotoCard 
-              src="/images/pic4.jpg" 
-              caption="Adventures together 🌍"
-              delay={0.2}
-            />
-            <PhotoCard 
-              src="/images/pic2.jpg" 
-              caption="Silly moments 🤪"
-              delay={0.4}
-            />
-            <PhotoCard 
-              src="/images/pic3.jpg" 
-              caption="Looking gorgeous as always 💃"
-              delay={0.6}
-            />
-             <PhotoCard 
-              src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&h=800&fit=crop" 
-              caption="My favorite view 👀"
-              delay={0.8}
-            />
-            <PhotoCard 
-              src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&h=800&fit=crop" 
-              caption="Forever & Always ❤️"
-              delay={1.0}
-            />
-          </div>
-        </div>
-      </Section>
-
-      {/* 4. Love Letter */}
-      <Section className="py-24">
-        <div className="max-w-3xl mx-auto">
-          <motion.div
-            whileHover={{ rotate: 1, scale: 1.01 }}
-            className="bg-[#fffdf7] p-8 md:p-12 rounded-lg shadow-2xl border border-primary/10 relative overflow-hidden"
-          >
-            {/* Paper texture overlay could go here */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-400 via-pink-500 to-red-400 opacity-50" />
-            
-            <h2 className="text-4xl font-hand font-bold text-center text-primary mb-8">
-              A Letter For You 💌
-            </h2>
-            
-            <div className="font-hand text-xl md:text-2xl leading-loose text-gray-700 space-y-6">
-              <p>My Dearest {CONFIG.name},</p>
-              <p>
-                As I sit down to write this, I realize that words aren't enough to express how much you mean to me.
-                Every day with you feels like a new adventure, a new reason to smile.
-              </p>
-              <p>
-                You have this incredible way of lighting up every room you enter. Your kindness, your laugh, your 
-                strength — everything about you amazes me.
-              </p>
-              <p>
-                On your special day, I just want you to know that you are loved beyond measure. I promise to 
-                always be your biggest fan, your shoulder to lean on, and your partner in crime.
-              </p>
-              <p>
-                Here's to another year of us, of laughter, and of love.
-              </p>
-              <p className="text-right mt-8 font-bold">
-                Forever Yours,<br/>
-                Me ❤️
-              </p>
-            </div>
-            
-            <div className="absolute -bottom-10 -right-10 text-9xl opacity-5 rotate-12 pointer-events-none">
-              ❤️
-            </div>
-          </motion.div>
-        </div>
-      </Section>
-
-      {/* 5. Birthday Countdown & Message Board */}
-      <Section className="bg-white/60 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-hand font-bold text-primary mb-12">
-            The Big Moment 🎉
-          </h2>
-          
-          <Countdown targetDate={CONFIG.birthdayDate} onComplete={triggerConfetti} />
-          
-          <div className="mt-20">
-            <h3 className="text-2xl font-bold mb-6 text-foreground">A Special Cake for You 🎂</h3>
-            <VirtualCake name={CONFIG.name} />
-          </div>
-
-          <div className="mt-20">
-            <h3 className="text-2xl font-bold mb-6 text-foreground">Leave a Wish 💭</h3>
-            <MessageBoard />
-          </div>
-        </div>
-      </Section>
-
-      {/* 6. Final Ending */}
-      <Section className="min-h-[60vh] flex flex-col items-center justify-center text-center pb-32">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="max-w-2xl"
-        >
-          <h2 className="text-4xl md:text-6xl font-hand font-bold text-primary mb-8 leading-tight">
-            You are my favorite person forever 💖
-          </h2>
-          
-          <div className="relative inline-block group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-pink-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-            <Button
-              size="lg"
-              onClick={() => {
-                setShowKiss(true);
-                triggerConfetti();
-              }}
-              className="relative px-12 py-8 text-2xl rounded-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 shadow-xl text-white border-none transform transition-all hover:scale-105 active:scale-95"
-            >
-              <Sparkles className="w-6 h-6 mr-3 animate-pulse" />
-              Click for a Final Kiss 😘
-            </Button>
-          </div>
-        </motion.div>
-      </Section>
-
-      {/* Footer */}
-      <footer className="py-8 text-center text-muted-foreground text-sm">
-        <p>Made with ❤️ just for you</p>
-      </footer>
-
-      {/* Kiss Popup */}
+      {/* Popups & Overlays */}
       <Dialog open={showKiss} onOpenChange={setShowKiss}>
         <DialogContent className="sm:max-w-md text-center border-none bg-white/95 backdrop-blur-xl shadow-2xl">
           <DialogHeader>
@@ -447,9 +408,7 @@ export default function Home() {
           </DialogHeader>
           <div className="py-8">
             <div className="text-8xl animate-bounce mb-6">💋</div>
-            <p className="text-2xl font-hand text-primary">
-              Happy Birthday, my love!
-            </p>
+            <p className="text-2xl font-hand text-primary">Happy Birthday, my love!</p>
           </div>
           <DialogFooter className="justify-center sm:justify-center">
             <Button onClick={() => setShowKiss(false)} variant="secondary" className="rounded-full">
