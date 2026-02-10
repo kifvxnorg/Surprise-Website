@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { insertMessageSchema, messages } from "./schema";
+import { insertMessageSchema, messages, dailyQuotes } from "./schema";
 
 export const api = {
   messages: {
@@ -17,6 +17,16 @@ export const api = {
       path: "/api/messages",
       responses: {
         200: z.array(z.custom<typeof messages.$inferSelect>()),
+      },
+    },
+  },
+  quotes: {
+    daily: {
+      method: "GET" as const,
+      path: "/api/quotes/daily",
+      responses: {
+        200: z.object({ content: z.string() }),
+        500: z.object({ message: z.string() }),
       },
     },
   },

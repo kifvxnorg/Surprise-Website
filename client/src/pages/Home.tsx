@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { insertMessageSchema, type InsertMessage } from "@shared/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { 
   Dialog, 
   DialogContent, 
@@ -268,6 +269,11 @@ export default function Home() {
               Happy Birthday <br/> 
               <span className="text-foreground">{CONFIG.name}</span>
             </h1>
+            
+            <div className="mb-10 w-full max-w-lg mx-auto">
+              <DailyDoseOfLove />
+            </div>
+
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-light">
               You are the most special person in my life. Today is all about you.
             </p>
@@ -595,5 +601,27 @@ function MessageBoard() {
         )}
       </div>
     </div>
+  );
+}
+
+function DailyDoseOfLove() {
+  const { data, isLoading, error } = useQuery<{ content: string }>({
+    queryKey: ["/api/quotes/daily"],
+  });
+
+  if (isLoading) return <div className="animate-pulse text-muted-foreground italic">Fetching your daily dose of love...</div>;
+  if (error || !data) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm"
+    >
+      <Heart className="w-8 h-8 text-primary mx-auto mb-4" />
+      <p className="text-xl md:text-2xl font-hand text-primary italic">
+        "{data.content}"
+      </p>
+    </motion.div>
   );
 }
