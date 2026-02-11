@@ -300,11 +300,14 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
               <PhotoCard src="/images/pic1.jpg" caption="Your beautiful smile ✨" delay={0} />
-              <PhotoCard src="/images/pic4.jpg" caption="Adventures together 🌍" delay={0.2} />
-              <PhotoCard src="/images/pic2.jpg" caption="Silly moments 🤪" delay={0.4} />
-              <PhotoCard src="/images/pic3.jpg" caption="Looking gorgeous as always 💃" delay={0.6} />
-              <PhotoCard src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&h=800&fit=crop" caption="My favorite view 👀" delay={0.8} />
-              <PhotoCard src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&h=800&fit=crop" caption="Forever & Always ❤️" delay={1.0} />
+              <PhotoCard src="/images/pic4.jpg" caption="Adventures together 🌍" delay={0.1} />
+              <PhotoCard src="/images/pic2.jpg" caption="Silly moments 🤪" delay={0.2} />
+              <PhotoCard src="/images/pic3.jpg" caption="Looking gorgeous as always 💃" delay={0.3} />
+              <PhotoCard src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&h=800&fit=crop" caption="My favorite view 👀" delay={0.4} />
+              <PhotoCard src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600&h=800&fit=crop" caption="Forever & Always ❤️" delay={0.5} />
+              <PhotoCard src="https://images.unsplash.com/photo-1511108690759-0013d1c1765c?w=600&h=800&fit=crop" caption="Quiet moments ☕" delay={0.6} />
+              <PhotoCard src="https://images.unsplash.com/photo-1522673607200-164883efcdf1?w=600&h=800&fit=crop" caption="Pure joy ✨" delay={0.7} />
+              <PhotoCard src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop" caption="Radiant as ever 🌟" delay={0.8} />
             </div>
             <Button size="lg" onClick={nextStep} className="rounded-full px-8 py-6 text-xl">
               Read My Message 💌
