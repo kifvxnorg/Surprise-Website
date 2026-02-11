@@ -35,11 +35,13 @@ function VirtualCake({ name }: { name: string }) {
   const [knifePos, setKnifePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     const rect = e.currentTarget.getBoundingClientRect();
     setKnifePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: clientX - rect.left,
+      y: clientY - rect.top,
     });
   };
 
@@ -70,14 +72,16 @@ function VirtualCake({ name }: { name: string }) {
 
   return (
     <div 
-      className="relative w-full max-w-md mx-auto h-[400px] flex items-center justify-center cursor-none group"
+      className="relative w-full max-w-sm mx-auto h-[350px] md:h-[400px] flex items-center justify-center cursor-none group touch-none"
       onMouseMove={handleMouseMove}
+      onTouchMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onTouchStart={() => setIsHovering(true)}
       onClick={handleCut}
     >
       {/* Cake Base */}
-      <div className="relative w-64 h-64">
+      <div className="relative w-48 h-48 md:w-64 md:h-64">
         {/* Shadow */}
         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-48 h-8 bg-black/10 rounded-[100%] blur-xl" />
         
@@ -265,7 +269,7 @@ export default function Home() {
             >
               ❤️
             </motion.div>
-            <h1 className="text-5xl md:text-7xl font-bold font-hand text-primary mb-6 tracking-tight drop-shadow-sm">
+            <h1 className="text-4xl md:text-7xl font-bold font-hand text-primary mb-6 tracking-tight drop-shadow-sm px-2">
               Happy Birthday <br/> 
               <span className="text-foreground">{CONFIG.name}</span>
             </h1>
@@ -365,10 +369,10 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             className="min-h-screen flex flex-col items-center justify-center p-4 text-center"
           >
-            <h2 className="text-4xl md:text-6xl font-hand font-bold text-primary mb-12 leading-tight">
+            <h2 className="text-3xl md:text-5xl font-hand font-bold text-primary mb-8 leading-tight">
               You are my favorite person forever 💖
             </h2>
-            <div className="grid gap-12 max-w-2xl w-full mx-auto">
+            <div className="grid gap-8 md:gap-12 max-w-2xl w-full mx-auto px-4">
               <div className="relative inline-block group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-pink-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                 <Button
@@ -377,9 +381,9 @@ export default function Home() {
                     setShowKiss(true);
                     triggerConfetti();
                   }}
-                  className="relative px-12 py-8 text-2xl rounded-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 shadow-xl text-white border-none transform transition-all hover:scale-105 active:scale-95 w-full"
+                  className="relative px-8 py-6 md:px-12 md:py-8 text-xl md:text-2xl rounded-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 shadow-xl text-white border-none transform transition-all hover:scale-105 active:scale-95 w-full"
                 >
-                  <Sparkles className="w-6 h-6 mr-3 animate-pulse" />
+                  <Sparkles className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 animate-pulse" />
                   Click for a Final Kiss 😘
                 </Button>
               </div>
@@ -520,11 +524,11 @@ function Countdown({ targetDate, onComplete }: { targetDate: string; onComplete:
 
 function TimeUnit({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center bg-white p-4 md:p-6 rounded-2xl shadow-lg border border-primary/10 w-24 md:w-32">
-      <span className="text-3xl md:text-5xl font-bold text-primary font-mono tabular-nums">
+    <div className="flex flex-col items-center bg-white p-3 md:p-6 rounded-2xl shadow-lg border border-primary/10 w-20 md:w-32">
+      <span className="text-2xl md:text-5xl font-bold text-primary font-mono tabular-nums">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-sm md:text-base text-muted-foreground uppercase tracking-widest mt-2 font-semibold">
+      <span className="text-[10px] md:text-base text-muted-foreground uppercase tracking-widest mt-1 md:mt-2 font-semibold text-center">
         {label}
       </span>
     </div>
