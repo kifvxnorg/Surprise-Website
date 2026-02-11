@@ -49,19 +49,19 @@ function VirtualCake({ name }: { name: string }) {
     if (!isCut) {
       setIsCut(true);
       const end = Date.now() + 2 * 1000;
-      const colors = ["#FFD700", "#FFC0CB", "#FF0000"];
+      const colors = ["#FFD700", "#FFC0CB", "#FF0000", "#FF69B4", "#FFF"];
       (function frame() {
         confetti({
-          particleCount: 3,
+          particleCount: 5,
           angle: 60,
-          spread: 55,
+          spread: 70,
           origin: { x: 0 },
           colors,
         });
         confetti({
-          particleCount: 3,
+          particleCount: 5,
           angle: 120,
-          spread: 55,
+          spread: 70,
           origin: { x: 1 },
           colors,
         });
@@ -72,7 +72,7 @@ function VirtualCake({ name }: { name: string }) {
 
   return (
     <div 
-      className="relative w-full max-w-sm mx-auto h-[350px] md:h-[400px] flex items-center justify-center cursor-none group touch-none"
+      className="relative w-full max-w-sm mx-auto h-[400px] flex items-center justify-center cursor-none group touch-none"
       onMouseMove={handleMouseMove}
       onTouchMove={handleMouseMove}
       onMouseEnter={() => setIsHovering(true)}
@@ -80,26 +80,51 @@ function VirtualCake({ name }: { name: string }) {
       onTouchStart={() => setIsHovering(true)}
       onClick={handleCut}
     >
-      {/* Cake Base */}
-      <div className="relative w-48 h-48 md:w-64 md:h-64">
-        {/* Shadow */}
-        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-48 h-8 bg-black/10 rounded-[100%] blur-xl" />
+      {/* Cake Platform */}
+      <div className="absolute bottom-16 w-64 h-8 bg-pink-100 rounded-[100%] border-b-4 border-pink-200 shadow-inner" />
+
+      {/* Cake Container */}
+      <div className="relative w-48 h-48 md:w-64 md:h-64 mb-16">
+        {/* Glow */}
+        <div className="absolute inset-0 bg-pink-300/20 blur-3xl rounded-full" />
         
         {/* Cake Body */}
         <motion.div 
-          animate={isCut ? { x: -10 } : {}}
-          className="absolute inset-0 bg-pink-200 rounded-lg shadow-lg border-b-8 border-pink-300"
+          animate={isCut ? { x: -15, rotate: -2 } : {}}
+          className="absolute inset-0 bg-gradient-to-b from-pink-100 to-pink-200 rounded-2xl shadow-xl border-b-[12px] border-pink-300"
         >
-          {/* Frosting drips */}
-          <div className="absolute top-0 left-0 w-full h-8 flex justify-around">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-8 h-12 bg-pink-100 rounded-full -mt-4" />
+          {/* Strawberry Toppings */}
+          <div className="absolute -top-4 left-0 w-full flex justify-around px-4">
+            {[...Array(4)].map((_, i) => (
+              <motion.div 
+                key={i}
+                animate={{ y: [0, -2, 0] }}
+                transition={{ repeat: Infinity, duration: 2, delay: i * 0.5 }}
+                className="text-2xl"
+              >
+                🍓
+              </motion.div>
             ))}
           </div>
 
+          {/* Fancy Frosting Drips */}
+          <div className="absolute top-0 left-0 w-full h-12 flex justify-around overflow-hidden">
+            {[...Array(8)].map((_, i) => (
+              <div 
+                key={i} 
+                className="w-6 h-10 bg-white rounded-full -mt-4 shadow-sm" 
+                style={{ height: `${24 + Math.random() * 16}px` }}
+              />
+            ))}
+          </div>
+
+          {/* Decorative Flowers */}
+          <div className="absolute bottom-4 left-4 text-xl opacity-80">🌸</div>
+          <div className="absolute top-12 right-6 text-xl opacity-80">✨</div>
+
           {/* Name on Cake */}
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <span className="font-hand text-3xl text-pink-500 font-bold text-center drop-shadow-sm rotate-[-2deg]">
+          <div className="absolute inset-0 flex items-center justify-center p-6">
+            <span className="font-hand text-3xl md:text-4xl text-pink-500 font-bold text-center drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] rotate-[-1deg]">
               {name}
             </span>
           </div>
@@ -109,7 +134,7 @@ function VirtualCake({ name }: { name: string }) {
             <motion.div 
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
-              className="absolute left-1/2 top-0 w-2 h-full bg-pink-300/50 -translate-x-1/2 origin-top"
+              className="absolute left-1/2 top-0 w-3 h-full bg-white/60 -translate-x-1/2 origin-top blur-[1px]"
             />
           )}
         </motion.div>
@@ -117,52 +142,72 @@ function VirtualCake({ name }: { name: string }) {
         {/* Cake Body Right Half (if cut) */}
         {isCut && (
           <motion.div 
-            initial={{ x: 0 }}
-            animate={{ x: 10 }}
-            className="absolute inset-0 bg-pink-200 rounded-lg shadow-lg border-b-8 border-pink-300 clip-path-right"
+            initial={{ x: 0, rotate: 0 }}
+            animate={{ x: 15, rotate: 2 }}
+            className="absolute inset-0 bg-gradient-to-b from-pink-100 to-pink-200 rounded-2xl shadow-xl border-b-[12px] border-pink-300"
             style={{ clipPath: 'inset(0 0 0 50%)' }}
           >
+             {/* Frosting drips right side */}
+             <div className="absolute top-0 left-0 w-full h-12 flex justify-around overflow-hidden">
+              {[...Array(8)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="w-6 h-10 bg-white rounded-full -mt-4 shadow-sm" 
+                  style={{ height: `${24 + Math.random() * 16}px` }}
+                />
+              ))}
+            </div>
+
             {/* Name Mirror */}
-            <div className="absolute inset-0 flex items-center justify-center p-4">
-              <span className="font-hand text-3xl text-pink-500 font-bold text-center drop-shadow-sm rotate-[-2deg]">
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <span className="font-hand text-3xl md:text-4xl text-pink-500 font-bold text-center drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] rotate-[-1deg]">
                 {name}
               </span>
             </div>
           </motion.div>
         )}
 
-        {/* Candles */}
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 flex gap-4">
+        {/* Fancy Candles */}
+        <div className="absolute -top-16 left-1/2 -translate-x-1/2 flex gap-6">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="w-2 h-12 bg-yellow-200 rounded-full relative">
-              <motion.div 
-                animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
-                transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.2 }}
-                className="absolute -top-4 left-1/2 -translate-x-1/2 w-4 h-6 bg-orange-500 rounded-full blur-[2px]"
-              />
+            <div key={i} className="w-3 h-16 bg-gradient-to-t from-pink-300 to-yellow-100 rounded-full relative shadow-sm">
+              {/* Flame */}
+              {!isCut && (
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.3, 1], 
+                    opacity: [0.9, 1, 0.9],
+                    y: [0, -2, 0]
+                  }}
+                  transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.2 }}
+                  className="absolute -top-6 left-1/2 -translate-x-1/2 w-6 h-8 bg-gradient-to-t from-orange-500 via-yellow-400 to-transparent rounded-full blur-[2px] z-10"
+                />
+              )}
+              {/* Wick */}
+              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-2 bg-gray-800 rounded-full" />
             </div>
           ))}
         </div>
       </div>
 
       {/* Virtual Knife Cursor */}
-      {isHovering && (
+      {isHovering && !isCut && (
         <motion.div 
-          className="pointer-events-none absolute z-50 text-4xl"
+          className="pointer-events-none absolute z-50 text-5xl"
           animate={{ 
-            x: knifePos.x - 20, 
-            y: knifePos.y - 20,
-            rotate: isCut ? 45 : -15 
+            x: knifePos.x - 24, 
+            y: knifePos.y - 24,
+            rotate: -15 
           }}
-          transition={{ type: "spring", damping: 20, stiffness: 300, mass: 0.5 }}
+          transition={{ type: "spring", damping: 20, stiffness: 400, mass: 0.5 }}
         >
           🔪
         </motion.div>
       )}
 
-      <div className="absolute bottom-4 left-0 w-full text-center">
-        <p className="font-hand text-xl text-primary animate-bounce">
-          {isCut ? "Yummy! 🍰" : "Click to cut the cake! 🔪"}
+      <div className="absolute bottom-0 left-0 w-full text-center">
+        <p className="font-hand text-2xl text-primary animate-pulse font-bold tracking-wide">
+          {isCut ? "Simply Delicious! 🍰✨" : "Tap to make a wish & cut! 🔪💖"}
         </p>
       </div>
     </div>
