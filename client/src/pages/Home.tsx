@@ -343,7 +343,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-hand font-bold text-primary mb-12 text-center">
               Our Memories 📸
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 max-w-6xl mx-auto mb-12 px-2">
               <PhotoCard src="/images/pic1.jpg" caption="Your beautiful smile ✨" delay={0} />
               <PhotoCard src="/images/pic4.jpg" caption="Adventures together 🌍" delay={0.1} />
               <PhotoCard src="/images/pic2.jpg" caption="Silly moments 🤪" delay={0.2} />
@@ -371,12 +371,12 @@ export default function Home() {
             <div className="max-w-3xl w-full">
               <div className="bg-[#fffdf7] p-8 md:p-12 rounded-lg shadow-2xl border border-primary/10 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-400 via-pink-500 to-red-400 opacity-50" />
-                <h2 className="text-4xl font-hand font-bold text-center text-primary mb-8">A Letter For You 💌</h2>
-                <div className="font-hand text-xl md:text-2xl leading-loose text-gray-700 space-y-6">
+                <h2 className="text-3xl md:text-4xl font-hand font-bold text-center text-primary mb-6">A Letter For You 💌</h2>
+                <div className="font-hand text-lg md:text-2xl leading-relaxed text-gray-700 space-y-4 md:space-y-6">
                   <p>My Dearest {CONFIG.name},</p>
                   <p>As I sit down to write this, I realize that words aren't enough to express how much you mean to me...</p>
                   <p>On your special day, I just want you to know that you are loved beyond measure.</p>
-                  <p className="text-right mt-8 font-bold">Forever Yours,<br/>Me ❤️</p>
+                  <p className="text-right mt-6 md:mt-8 font-bold">Forever Yours,<br/>Me ❤️</p>
                 </div>
               </div>
               <div className="text-center mt-12">
@@ -489,18 +489,19 @@ function PhotoCard({ src, caption, delay }: { src: string; caption: string; dela
       transition={{ delay, duration: 0.5 }}
       whileHover={{ y: -10 }}
     >
-      <Card className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 group bg-white">
-        <CardContent className="p-3">
-          <div className="overflow-hidden rounded-md relative aspect-[3/4]">
+      <Card className="overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 group bg-white rounded-xl">
+        <CardContent className="p-1 md:p-3">
+          <div className="overflow-hidden rounded-lg relative aspect-[3/4]">
             {/* Descriptive comment for Unsplash image */}
             {/* romantic couple photo or memory placeholder */}
             <img 
               src={src} 
               alt={caption}
+              loading="lazy"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
-              <span className="text-white font-hand text-xl font-bold px-4 text-center">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-2 md:pb-6 px-1">
+              <span className="text-white font-hand text-sm md:text-xl font-bold text-center leading-tight drop-shadow-md">
                 {caption}
               </span>
             </div>
